@@ -1,0 +1,46 @@
+
+
+<!--<form action="{% url 'eval:homepage' %}" method=POST>-->
+
+<h2> Class Evaluation</h2>
+
+{% if comment.can_edit %}
+  <h3> The session for this evaluation opens on {{ comment.session_id.session_start }},
+    and closes on {{ comment.session_id.session_end }} <br/>
+    If you do not submit your evaluation within this time window, your evaluation will not be saved.
+  </h3>
+{% else %}
+  <h3 style="color: red"> The session for this evaluation is closed. You may only view your comments. </h3>
+{% endif %}
+
+<form action="{% url 'eval:eval-submit' %}", method="POST">
+
+  {% csrf_token %}
+
+  <p> Class Rating (max. 15 characters): </p>
+
+  <input type="text" name="class-rating" placeholder="Rating" maxlength="15"
+    {% if comment.class_rating %}
+      value="{{ comment.class_rating }}"
+    {% endif %}
+    {% if not comment.can_edit %}
+      disabled
+    {% endif %}
+  /><br/>
+
+  <p> Class Comment (max. 150 characters): </p>
+  <input type="text" name="class-comment" placeholder="Comments" size="100" maxlength="150"
+    {% if comment.class_comment %}
+      value="{{ comment.class_comment }}"
+    {% endif %}
+    {% if not comment.can_edit %}
+      disabled
+    {% endif %}
+  />
+
+  <br/>
+  <br/>
+
+  <input type="submit" value="Submit">
+
+</form>

@@ -1,0 +1,73 @@
+
+
+<h2> Welcome to the Student Homepage, {{ student.first_name }} {{ student.last_name }}!</h2>
+
+<h3> Evaluations: </h3>
+<form action="{% url 'eval:stud-eval' %}", method="POST">
+
+  {% csrf_token %}
+
+  <table border="1">
+    <tr>
+      <th>
+        Select
+      </th>
+      <th>
+        Open/Closed
+      </th>
+      <th>
+        Course Number
+      </th>
+      <th>
+        Evaluation Start Time
+      </th>
+      <th>
+        Evaluation End Time
+      </th>
+      <th>
+        Class Rating
+      </th>
+      <th>
+        Class Comment
+      </th>
+    </tr>
+
+    {% if comments %}
+      {% for comment in comments %}
+      <tr>
+        <td>
+          <input type="radio" name="comment-id" value="{{ comment.pk }}" />
+        </td>
+        {% if comment.can_edit %}
+          <td style="color: green">
+            Open
+          </td>
+        {% else %}
+          <td style="color: red">
+            Closed
+          </td>
+        {% endif %}
+
+        <td>
+          {{ comment.session_id.course_id.course_num }}
+        </td>
+        <td>
+          {{ comment.session_id.session_start }}
+        </td>
+        <td>
+          {{ comment.session_id.session_end }}
+        </td>
+        <td>
+          {{ comment.class_rating }}
+        </td>
+        <td>
+          {{ comment.class_comment }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <br/>
+  <input type="submit" value="Complete/View Evaluation" />
+
+</form>

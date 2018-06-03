@@ -1,0 +1,35 @@
+
+
+<h2> Evaluations Report </h2>
+<h3> Course Number: {{ session.course_id.course_num }}</h3>
+<h3>Session Starting Time: {{ session.session_start }}</h3>
+<h3>Session Ending Time: {{ session.session_end }}</h3>
+{% if session.is_open %}
+  <h3> Session is still open for evaluation submissions. </h3>
+{% else %}
+  <h3> Session is closed for evaluation submissions. </h3>
+{% endif %}
+
+<table border="1">
+  <tr>
+    <th>
+      Class Rating
+    </th>
+    <th>
+      Class Comment
+    </th>
+  </tr>
+  {% for comment in session.comment_set.all %}
+    {% if comment.class_rating or comment.class_comment %}
+      <tr>
+        <td>
+          {{ comment.class_rating }}
+        </td>
+        <td>
+          {{ comment.class_comment }}
+        </td>
+      </tr>
+    {% endif %}
+  {% endfor %}
+
+</table>

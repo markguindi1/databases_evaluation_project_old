@@ -1,0 +1,23 @@
+
+
+<form action="{% url 'eval:homepage' %}" method=POST>
+  {% csrf_token %}
+
+  {% if error_message %}
+    <p style="color: red"> {{error_message}} </p>
+  {% endif %}
+
+  <p> Please log in:</p>
+
+  <input type="text" name="username" placeholder="Username"
+    {% if valid_username %}
+      value="{{ valid_username }}"
+    {% endif %}
+  />
+  <br/>
+  <br/>
+  <input type="password" name="password" placeholder="Password"/>
+  <br/>
+  <br/>
+  <input type="submit" value="Login">
+</form>

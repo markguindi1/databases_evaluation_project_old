@@ -1,0 +1,107 @@
+
+
+<h2> Welcome to the Professor Homepage, Professor {{ professor.first_name }} {{ professor.last_name }}!</h2>
+
+<h3> Evaluation Sessions: </h3>
+
+<form action="{% url 'eval:evals-report' %}" method="POST">
+  {% csrf_token %}
+
+  <table border="1">
+    <tr>
+      <th>
+        Select
+      </th>
+      <th>
+        Open/Closed
+      </th>
+      <th>
+        Session ID
+      </th>
+      <th>
+        Course Number
+      </th>
+      <th>
+        Session Start Time
+      </th>
+      <th>
+        Session End Time
+      </th>
+    </tr>
+
+    {% if sessions %}
+      {% for session in sessions %}
+        <tr>
+          <td>
+            <input type="radio" name="session-id" value="{{ session.pk }}" />
+          </td>
+          {% if session.is_open %}
+            <td style="color: green">
+              Open
+            </td>
+          {% else %}
+            <td style="color: red">
+              Closed
+            </td>
+          {% endif %}
+          <td>
+            {{ session.pk }}
+          </td>
+          <td>
+            {{ session.course_id.course_num }}
+          </td>
+          <td>
+            {{ session.session_start }}
+          </td>
+          <td>
+            {{ session.session_end }}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+
+  <input type="submit" value="View Evaluations Report" />
+</form>
+
+<h3> Add Session: </h3>
+
+<form action = "{% url 'eval:prof-new-session' %}" method="POST">
+  {% csrf_token %}
+
+  <table border="1">
+    <tr>
+      <th>
+        Course Number
+      </th>
+      <th>
+        Session Start Time
+      </th>
+      <th>
+        Session End Time
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select name="course-id">
+          <option value=""> ---------------- </option>
+          {% for course in professor.course_set.all %}
+            <option value="{{ course.id }}"> {{ course.course_num }}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+        <input type="datetime-local" name="new-session-start">
+      </td>
+      <td>
+        <input type="datetime-local" name="new-session-end">
+      </td>
+    </tr>
+  </table>
+  <input type="submit" value="Create Session" />
+
+</form>
+
+{% if message %}
+  <h3 style="color:red;"> {{ message }}</h3>
+{% endif %}
