@@ -2,6 +2,8 @@
 
 This project is an older version of a class evaluation system, which was an academic project for a Databases course.
 
+This project was built using the Python programming language (version 3), and the Django Web Framework (version 2). The database backend used was MySQL. The frontend was built using plain HTML. 
+
 This system allows both students and professors to log in to access the system. For all of the courses they are enrolled in, students can view already-closed evaluations on their homepage, as well as complete or edit evaluations that are still currently open. 
 
 Professors can add evaluation sessions for a course, as well as see the data for each evaluation session. Student evaluations are anonymous, so the Professor cannot see who submitted the evaluations. 
